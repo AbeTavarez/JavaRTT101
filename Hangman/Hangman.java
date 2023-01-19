@@ -75,8 +75,11 @@ public class Hangman {
     // System.out.println(randomNumber);
     String randomWord = words[randomNumber];
     // System.out.println(randomWord);
+    String placeholder = "-";
 
-
+    for (int i = 0; i <= randomWord.length(); i++) {
+        System.out.print("-");
+    }
 
 
     }
