@@ -1,5 +1,8 @@
 package Hangman;
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class Hangman {
 
@@ -69,17 +72,87 @@ public class Hangman {
     "     |\n" +
     " =========\n"};
 
-    public static void main(String[] args) {
-
-    int randomNumber = (int) Math.floor(Math.random() * words.length);
-    // System.out.println(randomNumber);
-    String randomWord = words[randomNumber];
-    // System.out.println(randomWord);
-    String placeholder = "-";
-
-    for (int i = 0; i <= randomWord.length(); i++) {
-        System.out.print("-");
+    public static String getRandomWord () {
+        int randomNumber = (int) Math.floor(Math.random() * words.length);
+        // System.out.println(randomNumber);
+        String randomWord = words[randomNumber];
+        System.out.println(randomWord);
+        return randomWord;
     }
+
+    public static String[] getPlaceholders(String randomWord) {
+        String[] placeholders = new String[randomWord.length()];
+    
+        // populates array with number of dashes
+        for (int i = 0; i < randomWord.length(); i++) {
+            placeholders[i] = "-";
+        }
+        
+        return placeholders;
+    }
+
+    public static void checkMatch(String guess) {
+
+    } 
+
+    public static void printPlaceholder(String[] placeholders){
+        // Print the dashes for random word
+    System.out.print("Word: ");
+    for (int i = 0; i < placeholders.length; i++) {
+        System.out.print(placeholders[i]);
+    }
+    }
+
+    public static void main(String[] args) {
+    // we get a random word
+    String randomWord = getRandomWord();
+    // we create the placeholders for the word
+    String[] placeholders = getPlaceholders(randomWord);
+    // we create an array to store the guessed letters
+    String[] randomWordArray = randomWord.split("");
+    int numberOfGuesses = 0;
+    int missedGuesses = 0;
+    // print placeholder lines
+    printPlaceholder(placeholders);
+
+    // Create scanner and prompt user
+    Scanner scan = new Scanner(System.in);
+    
+    // Prompt user
+    for (int i = 0; i <= 6; i++) {
+        System.out.println("\nEnter a single letter:");
+        String guess = scan.nextLine();
+        guess.trim();
+        System.out.println("Your guess is: " + guess + "\n"); 
+        numberOfGuesses++;
+        Boolean gotMatched = null;
+
+        // Check if the letter is in the word
+        for (int j = 0; j < randomWordArray.length; j++) {
+            if (guess.equals(randomWordArray[j])) {
+                placeholders[j] = randomWordArray[j];
+                printPlaceholder(placeholders);System.out.println("\n");
+                gotMatched = true;
+            } 
+        }
+
+        // check if letter is not in the word
+        if (gotMatched == null) {
+            System.out.println("Letter not in word \n");
+            missedGuesses++;
+            // gotMatched = false;
+        }
+        
+        String concat = String.join("", placeholders);
+        // check if user guessed all letters
+        if (randomWord.equals(concat)) {
+            System.out.println("\nYou guessed all letters!\n");
+            System.out.println("You missed " + missedGuesses + " guesses.\n");
+            System.out.println("The word was: " + randomWord + "\n");
+            break;
+        }
+    }
+
 
 
     }
